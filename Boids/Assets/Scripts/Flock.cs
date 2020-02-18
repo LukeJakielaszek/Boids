@@ -59,9 +59,9 @@ public class Flock : MonoBehaviour
     {
         foreach(FlockAgent agent in agents){
             List<Transform> context = GetNearbyObjects(agent);
-            Debug.Log(context.Count);
-            agent.GetComponentInChildren<MeshRenderer>().material.Lerp(startMaterial, otherMaterial, context.Count / 6f);
-            /*
+            //Debug.Log(context.Count);
+            //agent.GetComponentInChildren<MeshRenderer>().material.Lerp(startMaterial, otherMaterial, context.Count / 6f);
+            
             Vector3 move = flockBehavior.CalculateMove(agent, context, this);
             move*=driveFactor;
 
@@ -70,7 +70,7 @@ public class Flock : MonoBehaviour
             }
 
             agent.Move(move);
-            */
+            
         }
     }
 
