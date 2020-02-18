@@ -43,11 +43,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1fa4ac29e5cf60a4ba89f97f1bfc8093, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  otherMaterial: {fileID: 2100000, guid: 3183c6ce9a7ccf84bb8910753743a449, type: 2}
+  startMaterial: {fileID: 2100000, guid: 1c5f6b41fc2f0ec4295ae89177eb39f9, type: 2}
   agentPrefab: {fileID: 9063051331296104736, guid: 844b842012f6b4b45b9ab657b721a403,
     type: 3}
   flockBehavior: {fileID: 0}
-  agentCount: 250
+  agentCount: 391
   driveFactor: 10
   maximumSpeed: 5
-  neighborRadius: 1.5
+  neighborRadius: 2.91
   avoidanceRadiusMultiplier: 0.5

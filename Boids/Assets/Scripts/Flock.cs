@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class Flock : MonoBehaviour
 {
+    public Material otherMaterial;
+    public Material startMaterial;
+
     public FlockAgent agentPrefab;
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior flockBehavior;
@@ -54,6 +57,34 @@ public class Flock : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        foreach(FlockAgent agent in agents){
+            List<Transform> context = GetNearbyObjects(agent);
+            Debug.Log(context.Count);
+            agent.GetComponentInChildren<MeshRenderer>().material.Lerp(startMaterial, otherMaterial, context.Count / 6f);
+            /*
+            Vector3 move = flockBehavior.CalculateMove(agent, context, this);
+            move*=driveFactor;
+
+            if(move.sqrMagnitude > squareMaxSpeed){
+                move = move.normalized*maximumSpeed;
+            }
+
+            agent.Move(move);
+            */
+        }
+    }
+
+    List<Transform> GetNearbyObjects(FlockAgent agent){
+        List<Transform> context = new List<Transform>();
+
+        Collider[] contextColliders = Physics.OverlapSphere(agent.transform.position, neighborRadius);
+
+        foreach(Collider c in contextColliders){
+            if(c != agent.AgentCollider){
+                context.Add(c.transform);
+            }
+        }
+
+        return context;
     }
 }
