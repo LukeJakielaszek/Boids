@@ -11,9 +11,11 @@ public class Flock : MonoBehaviour
     List<FlockAgent> agents = new List<FlockAgent>();
     public FlockBehavior flockBehavior;
     
-    [Range(10,500)]
+    [Range(10,10000)]
     public int agentCount = 250;
-    const float agentDensity = 0.08f;
+
+    [Range(.001f, .1f)]
+    public float agentDensity = 0.08f;
 
     [Range(1f, 100f)]
     public float driveFactor = 10f;
