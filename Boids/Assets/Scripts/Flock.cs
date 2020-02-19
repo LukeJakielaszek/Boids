@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
 public class Flock : MonoBehaviour
 {
@@ -45,13 +46,14 @@ public class Flock : MonoBehaviour
        for(int i = 0; i < agentCount; i++)
        {
            FlockAgent newAgent = Instantiate(
-               agentPrefab, 
-               Random.insideUnitSphere*agentCount*agentDensity, 
-               Quaternion.Euler(Vector3.forward * Random.Range(0,360)),
+               agentPrefab,
+               UnityEngine.Random.insideUnitSphere*agentCount*agentDensity, 
+               Quaternion.Euler(Vector3.forward * UnityEngine.Random.Range(0,360)),
                transform
                );
 
             newAgent.name = "Agent_" + i;
+            newAgent.initialize(this);
             agents.Add(newAgent);
        }
     }
@@ -60,11 +62,11 @@ public class Flock : MonoBehaviour
     void Update()
     {
         foreach(FlockAgent agent in agents){
-            List<Transform> context = GetNearbyObjects(agent);
-            //Debug.Log(context.Count);
-            //agent.GetComponentInChildren<MeshRenderer>().material.Lerp(startMaterial, otherMaterial, context.Count / 6f);
+            Tuple<List<Transform>, List<FlockAgent>> contexts = GetNearbyObjects(agent);
+            List<Transform> context = contexts.Item1;
+            List<FlockAgent> contextDescription = contexts.Item2;
             
-            Vector3 move = flockBehavior.CalculateMove(agent, context, this);
+            Vector3 move = flockBehavior.CalculateMove(agent, context, contextDescription, this);
             move*=driveFactor;
 
             if(move.sqrMagnitude > squareMaxSpeed){
@@ -72,21 +74,22 @@ public class Flock : MonoBehaviour
             }
 
             agent.Move(move);
-            
         }
     }
 
-    List<Transform> GetNearbyObjects(FlockAgent agent){
+    Tuple<List<Transform>, List<FlockAgent>> GetNearbyObjects(FlockAgent agent){
         List<Transform> context = new List<Transform>();
+        List<FlockAgent> contextDescription = new List<FlockAgent>();
 
         Collider[] contextColliders = Physics.OverlapSphere(agent.transform.position, neighborRadius);
 
         foreach(Collider c in contextColliders){
             if(c != agent.AgentCollider){
                 context.Add(c.transform);
+                contextDescription.Add(c.GetComponent<FlockAgent>());
             }
         }
-
-        return context;
+    
+        return new Tuple<List<Transform>, List<FlockAgent>>(context, contextDescription);
     }
 }

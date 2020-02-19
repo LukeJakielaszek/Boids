@@ -12,3 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ec92f106d3329f45b79ac68234080eb, type: 3}
   m_Name: Avoidance
   m_EditorClassIdentifier: 
+  filter: {fileID: 11400000, guid: 77b6d520c404f8047a2cfc9972d3a4ed, type: 2}
+  AgentSmoothTime: 0.5
